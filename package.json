@@ -1,6 +1,6 @@
 {
   "name": "file-explorer-expo-dev-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "File Explorer DevTools plugin",
   "main": "build/index.js",
   "types": "build/index.d.ts",
