@@ -6,13 +6,23 @@ import { base64ToByteArray, convertFileToBase64 } from './utils'
 import mime from 'mime'
 
 const methods = {
-  ping: 'ping',
-  getFiles: 'get-files',
-  getFileContent: 'get-file-content',
-  deleteFile: 'delete-file',
-  getRootDirectories: 'get-root-directories',
-  uploadFile: 'upload-file',
-  newFolder: 'new-folder',
+  in: {
+    ping: 'r-ping',
+    getRootDirectories: 'r-get-root-directories',
+    getFiles: 'r-get-files',
+    getFileContent: 'r-get-file-content',
+    error: 'error',
+    success: 'success',
+  },
+  out: {
+    ping: 'ping',
+    getFiles: 'get-files',
+    getFileContent: 'get-file-content',
+    deleteFile: 'delete-file',
+    getRootDirectories: 'get-root-directories',
+    uploadFile: 'upload-file',
+    newFolder: 'new-folder',
+  },
 }
 
 type UseClientProps = {
@@ -36,19 +46,19 @@ export function useFsClient({
   const fetchFiles = useCallback(() => {
     if (activePath === '') return
 
-    client?.sendMessage(methods.getFiles, { path: activePath })
+    client?.sendMessage(methods.out.getFiles, { path: activePath })
   }, [client, activePath])
 
   const getFileContent = useCallback(
     (path: string) => {
-      client?.sendMessage(methods.getFileContent, { path })
+      client?.sendMessage(methods.out.getFileContent, { path })
     },
     [client]
   )
 
   const deleteFile = useCallback(
     (path: string) => {
-      client?.sendMessage(methods.deleteFile, { path })
+      client?.sendMessage(methods.out.deleteFile, { path })
     },
     [client]
   )
@@ -57,7 +67,7 @@ export function useFsClient({
     async (file: File) => {
       const base64String = await convertFileToBase64(file)
 
-      client?.sendMessage(methods.uploadFile, {
+      client?.sendMessage(methods.out.uploadFile, {
         path: activePath,
         name: encodeURI(file.name),
         base64String,
@@ -68,7 +78,7 @@ export function useFsClient({
 
   const createNewFolder = useCallback(
     (folderName: string) => {
-      client?.sendMessage(methods.newFolder, {
+      client?.sendMessage(methods.out.newFolder, {
         path: activePath,
         name: encodeURI(folderName),
       })
@@ -80,28 +90,20 @@ export function useFsClient({
     const subscriptions: EventSubscription[] = []
 
     subscriptions.push(
-      client?.addMessageListener(methods.ping, (data) => {
-        message.success(`Connected`)
-        client?.sendMessage(methods.ping, { from: 'web' })
-      })
-    )
-
-    subscriptions.push(
-      client?.addMessageListener(methods.getFiles, (data) => {
-        processResponse(data)
+      client?.addMessageListener(methods.in.getFiles, (data) => {
         setFiles(data.files ?? [])
       })
     )
 
     subscriptions.push(
-      client?.addMessageListener(methods.getRootDirectories, (data) => {
+      client?.addMessageListener(methods.in.getRootDirectories, (data) => {
         setRootDirectories(data.rootDirectories)
         setActivePath(data.rootDirectories?.[rootDirectoryType])
       })
     )
 
     subscriptions.push(
-      client?.addMessageListener(methods.getFileContent, (data) => {
+      client?.addMessageListener(methods.in.getFileContent, (data) => {
         const blob = new Blob([base64ToByteArray(data.content)], {
           type: mime.getType(data.path) || '',
         })
@@ -116,7 +118,13 @@ export function useFsClient({
       })
     )
 
-    client?.sendMessage(methods.getRootDirectories, {})
+    subscriptions.push(
+      client?.addMessageListener(methods.in.error, ({ error }) => {
+        message.error(error ?? `Unknown error`)
+      })
+    )
+
+    client?.sendMessage(methods.out.getRootDirectories, {})
 
     return () => {
       for (const subscription of subscriptions) {
@@ -130,33 +138,14 @@ export function useFsClient({
 
     dynamicSubscriptions.push(
       client?.addMessageListener(
-        methods.deleteFile,
-        (data: { result: boolean; error: string }) => {
-          if (processResponse(data)) {
-            message.success(`Deleted`)
-            fetchFiles()
-          }
+        methods.in.success,
+        ({ message: messageIn, refresh }) => {
+          message.success(messageIn ?? `Success`)
+          if (refresh) fetchFiles()
         }
       )
     )
 
-    dynamicSubscriptions.push(
-      client?.addMessageListener(methods.uploadFile, (data) => {
-        if (processResponse(data)) {
-          message.success(`File uploaded`)
-          fetchFiles()
-        }
-      })
-    )
-
-    dynamicSubscriptions.push(
-      client?.addMessageListener(methods.newFolder, (data) => {
-        if (processResponse(data)) {
-          message.success(`Folder created`)
-          fetchFiles()
-        }
-      })
-    )
     return () => {
       for (const subscription of dynamicSubscriptions) {
         subscription?.remove()
@@ -173,15 +162,4 @@ export function useFsClient({
     uploadFile,
     createNewFolder,
   }
-}
-
-const processResponse = (data: any): boolean => {
-  if (data.error) {
-    message.error(`Failed to ${data.error}`, 3)
-    return false
-  } else if (data.errors) {
-    message.error(`Failed to get files: ${data.errors.join('\n')}`, 3)
-    return false
-  }
-  return true
 }
