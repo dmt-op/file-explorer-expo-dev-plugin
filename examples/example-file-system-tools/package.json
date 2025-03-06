@@ -36,7 +36,8 @@
     "react-native-web": "~0.19.13",
     "react-native-webview": "13.12.5",
     "expo-image-picker": "~16.0.6",
-    "expo-document-picker": "~13.0.3"
+    "expo-document-picker": "~13.0.3",
+    "file-explorer-expo-dev-plugin": "~1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
