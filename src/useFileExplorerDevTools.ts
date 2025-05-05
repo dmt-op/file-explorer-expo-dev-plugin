@@ -45,7 +45,7 @@ export function useFileExplorerDevTools() {
   )
 
   useEffect(() => {
-    const subscriptions: EventSubscription[] = []
+    const subscriptions: (EventSubscription | undefined)[] = []
 
     client?.sendMessage(methods.in.ping, { from: 'app' })
 
@@ -58,8 +58,10 @@ export function useFileExplorerDevTools() {
           let files: string[] = []
           try {
             files = await FileSystem.readDirectoryAsync(data.path)
-          } catch (error) {
-            sendError(error.message)
+          } catch (error: unknown) {
+            const message =
+              error instanceof Error ? error.message : String(error)
+            sendError(message)
             return
           }
 
@@ -70,7 +72,9 @@ export function useFileExplorerDevTools() {
                 info: await FileSystem.getInfoAsync(`${data.path}/${file}`),
               }
             } catch (error) {
-              return { error: error.message }
+              const message =
+                error instanceof Error ? error.message : String(error)
+              return { error: message }
             }
           })
 
@@ -120,8 +124,10 @@ export function useFileExplorerDevTools() {
               content,
               path: data.path,
             })
-          } catch (error) {
-            sendError(error.message)
+          } catch (error: unknown) {
+            const message =
+              error instanceof Error ? error.message : String(error)
+            sendError(message)
           }
         }
       )
@@ -136,8 +142,10 @@ export function useFileExplorerDevTools() {
           try {
             await FileSystem.deleteAsync(data.path)
             sendSuccess('File deleted', true)
-          } catch (error) {
-            sendError(error.message)
+          } catch (error: unknown) {
+            const message =
+              error instanceof Error ? error.message : String(error)
+            sendError(message)
           }
         }
       )
@@ -156,8 +164,10 @@ export function useFileExplorerDevTools() {
               }
             )
             sendSuccess('File uploaded', true)
-          } catch (error) {
-            sendError(error.message)
+          } catch (error: unknown) {
+            const message =
+              error instanceof Error ? error.message : String(error)
+            sendError(message)
           }
         }
       )
@@ -172,8 +182,10 @@ export function useFileExplorerDevTools() {
               intermediates: true,
             })
             sendSuccess('Folder created', true)
-          } catch (error) {
-            sendError(error.message)
+          } catch (error: unknown) {
+            const message =
+              error instanceof Error ? error.message : String(error)
+            sendError(message)
           }
         }
       )
