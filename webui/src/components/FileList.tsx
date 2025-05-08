@@ -1,15 +1,15 @@
-import { Table, Divider, Tooltip } from 'antd'
-import { FileInfo } from 'expo-file-system'
-import { bytesToSize, formatTimestamp } from '@/utils'
 import {
   DeleteOutlined,
   FolderOutlined,
   FileOutlined,
   DownloadOutlined,
 } from '@ant-design/icons'
-import { AppFile } from '../types'
+import { Table, Divider, Tooltip, theme } from 'antd'
+import { FileInfo } from 'expo-file-system'
 import { View, StyleSheet } from 'react-native'
-import { theme } from 'antd'
+
+import { AppFile } from '@/types'
+import { bytesToSize, formatTimestamp } from '@/utils'
 
 type FileListProps = {
   sortedFiles: AppFile[]

@@ -1,11 +1,12 @@
-import { View, StyleSheet } from 'react-native'
-import { Upload, Button } from 'antd'
 import {
   UploadOutlined,
   ReloadOutlined,
   FolderOutlined,
 } from '@ant-design/icons'
+import { Upload, Button } from 'antd'
 import { useCallback, useState } from 'react'
+import { View, StyleSheet } from 'react-native'
+
 import { NewFolderModal } from '../modals/NewFolderModal'
 
 type ToolbarProps = {
