@@ -1,8 +1,16 @@
+![NPM Version](https://img.shields.io/npm/v/file-explorer-expo-dev-plugin)
+![Downloads](https://img.shields.io/npm/dm/file-explorer-expo-dev-plugin)
+
 # File Explorer Expo Dev Plugin
 
 A DevTools plugin for managing and viewing the file system in Expo Go and Expo development projects.
 
 ![Demo of file-explorer-expo-dev-plugin](./.github/assets/demo.gif)
+
+## Compatibility
+
+- For **Expo SDK 53 and newer**, use the latest version of this plugin
+- For **Expo SDK 52**, use version `1.0.1`
 
 ## Installation
 
