@@ -1,12 +1,13 @@
 import { Divider } from 'antd'
-import { View, StyleSheet } from 'react-native'
 import { useMemo, useState, useEffect, useCallback } from 'react'
-import { useFsClient } from './useFsClient'
+import { View, StyleSheet } from 'react-native'
+
+import { FileList } from './components/FileList'
 import { InterractivePath } from './components/InterractivePath'
 import { RootPicker } from './components/RootPicker'
 import { Toolbar } from './components/Toolbar'
-import { FileList } from './components/FileList'
 import { AppFile, RootDirectory } from './types'
+import { useFsClient } from './useFsClient'
 
 export function Explorer() {
   const [rootDirectoryType, setRootDirectoryType] = useState<RootDirectory>(
@@ -23,9 +24,9 @@ export function Explorer() {
     uploadFile,
     createNewFolder,
   } = useFsClient({
-    setActivePath: setActivePath,
-    rootDirectoryType: rootDirectoryType,
-    activePath: activePath,
+    setActivePath,
+    rootDirectoryType,
+    activePath,
   })
 
   useEffect(() => {

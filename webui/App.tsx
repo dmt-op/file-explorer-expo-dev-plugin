@@ -1,5 +1,8 @@
-import { Explorer } from '@/Explorer'
 import { ConfigProvider, message, Layout } from 'antd'
+
+import { Explorer } from '@/Explorer'
+import '@ant-design/v5-patch-for-react-19'
+
 const { Content } = Layout
 
 message.config({

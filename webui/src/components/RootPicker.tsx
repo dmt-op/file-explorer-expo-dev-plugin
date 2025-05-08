@@ -1,6 +1,8 @@
-import { RootDirectory } from '../types'
-import { capitalize } from '@/utils'
 import { Button, Row } from 'antd'
+
+import { RootDirectory } from '../types'
+
+import { capitalize } from '@/utils'
 
 type RootPickerProps = {
   onRootChange: (root: RootDirectory) => void

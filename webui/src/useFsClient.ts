@@ -1,9 +1,10 @@
-import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools'
-import { useEffect, useCallback, useState } from 'react'
-import { AppFile, RootDirectory } from '@/types'
 import { message } from 'antd'
-import { base64ToByteArray, convertFileToBase64 } from './utils'
+import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools'
 import mime from 'mime'
+import { useEffect, useCallback, useState } from 'react'
+
+import { AppFile, RootDirectory } from '@/types'
+import { base64ToByteArray, convertFileToBase64 } from '@/utils'
 
 const methods = {
   in: {
@@ -89,21 +90,25 @@ export function useFsClient({
   useEffect(() => {
     const subscriptions: EventSubscription[] = []
 
+    if (!client) {
+      return
+    }
+
     subscriptions.push(
-      client?.addMessageListener(methods.in.getFiles, (data) => {
+      client.addMessageListener(methods.in.getFiles, (data) => {
         setFiles(data.files ?? [])
       })
     )
 
     subscriptions.push(
-      client?.addMessageListener(methods.in.getRootDirectories, (data) => {
+      client.addMessageListener(methods.in.getRootDirectories, (data) => {
         setRootDirectories(data.rootDirectories)
         setActivePath(data.rootDirectories?.[rootDirectoryType])
       })
     )
 
     subscriptions.push(
-      client?.addMessageListener(methods.in.getFileContent, (data) => {
+      client.addMessageListener(methods.in.getFileContent, (data) => {
         const blob = new Blob([base64ToByteArray(data.content)], {
           type: mime.getType(data.path) || '',
         })
@@ -119,12 +124,12 @@ export function useFsClient({
     )
 
     subscriptions.push(
-      client?.addMessageListener(methods.in.error, ({ error }) => {
+      client.addMessageListener(methods.in.error, ({ error }) => {
         message.error(error ?? `Unknown error`)
       })
     )
 
-    client?.sendMessage(methods.out.getRootDirectories, {})
+    client.sendMessage(methods.out.getRootDirectories, {})
 
     return () => {
       for (const subscription of subscriptions) {
@@ -136,8 +141,12 @@ export function useFsClient({
   useEffect(() => {
     const dynamicSubscriptions: EventSubscription[] = []
 
+    if (!client) {
+      return
+    }
+
     dynamicSubscriptions.push(
-      client?.addMessageListener(
+      client.addMessageListener(
         methods.in.success,
         ({ message: messageIn, refresh }) => {
           message.success(messageIn ?? `Success`)
