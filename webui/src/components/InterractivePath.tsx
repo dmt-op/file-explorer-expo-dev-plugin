@@ -1,6 +1,6 @@
-import { Breadcrumb } from 'antd'
-import { useMemo } from 'react'
-
+import { Breadcrumb, Button, message, Tooltip } from 'antd'
+import { useCallback, useMemo } from 'react'
+import { CopyOutlined } from '@ant-design/icons'
 import { getRelativeExpoFsPathParts } from '@/utils'
 
 type InterractivePathProps = {
@@ -18,6 +18,11 @@ export function InterractivePath({
     () => getRelativeExpoFsPathParts(path, root),
     [path, root]
   )
+
+  const handleCopyPath = useCallback(() => {
+    navigator.clipboard.writeText(path)
+    message.success('Path copied to clipboard')
+  }, [path])
 
   const breadcrumbItems = [
     {
@@ -42,10 +47,23 @@ export function InterractivePath({
   ]
 
   return (
-    <Breadcrumb
-      style={{ width: '100%' }}
-      separator=">"
-      items={breadcrumbItems}
-    />
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 4,
+      }}
+    >
+      <Breadcrumb
+        style={{ width: '100%' }}
+        separator=">"
+        items={breadcrumbItems}
+      />
+      <Tooltip title="Copy Full Path">
+        <Button type="text" icon={<CopyOutlined />} onClick={handleCopyPath}>
+          Copy Path
+        </Button>
+      </Tooltip>
+    </div>
   )
 }
