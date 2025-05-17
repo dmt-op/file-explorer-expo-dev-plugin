@@ -1,7 +1,10 @@
-import { ConfigProvider, message, Layout } from 'antd'
+import { ConfigProvider, message, Layout, theme } from 'antd'
+import { useState } from 'react'
 
 import { Explorer } from '@/Explorer'
 import '@ant-design/v5-patch-for-react-19'
+import { View } from 'react-native'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 const { Content } = Layout
 
@@ -12,10 +15,20 @@ message.config({
 })
 
 export default function App() {
+  const [isDarkMode, setIsDarkMode] = useState(false)
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode)
+  }
+
   return (
-    <ConfigProvider>
-      <Layout>
-        <Content
+    <ConfigProvider
+      theme={{
+        algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
+      }}
+    >
+      <Layout style={{ minHeight: '100vh' }}>
+        <Layout
           style={{
             display: 'flex',
             justifyContent: 'center',
@@ -24,8 +37,17 @@ export default function App() {
             margin: '0 auto',
           }}
         >
-          <Explorer />
-        </Content>
+          <View
+            style={{
+              height: '100%',
+              width: '100%',
+              position: 'relative',
+            }}
+          >
+            <Explorer />
+            <ThemeToggle isDarkMode={isDarkMode} onToggle={toggleTheme} />
+          </View>
+        </Layout>
       </Layout>
     </ConfigProvider>
   )
