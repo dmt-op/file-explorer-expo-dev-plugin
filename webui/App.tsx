@@ -6,7 +6,7 @@ import '@ant-design/v5-patch-for-react-19'
 import { View } from 'react-native'
 import { ThemeToggle } from '@/components/ThemeToggle'
 
-const { Content } = Layout
+const THEME_STORAGE_KEY = 'expo-fs-explorer-is-dark-mode'
 
 message.config({
   top: 8,
@@ -15,10 +15,13 @@ message.config({
 })
 
 export default function App() {
-  const [isDarkMode, setIsDarkMode] = useState(false)
+  const [isDarkMode, setIsDarkMode] = useState(
+    localStorage.getItem(THEME_STORAGE_KEY) === 'true'
+  )
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode)
+    localStorage.setItem(THEME_STORAGE_KEY, String(!isDarkMode))
   }
 
   return (
