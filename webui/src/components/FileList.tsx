@@ -3,6 +3,7 @@ import {
   FolderOutlined,
   FileOutlined,
   DownloadOutlined,
+  CopyOutlined,
 } from '@ant-design/icons'
 import { Table, Divider, Tooltip, theme } from 'antd'
 import { FileInfo } from 'expo-file-system'
@@ -16,6 +17,7 @@ type FileListProps = {
   handleItemPress: (file: AppFile) => void
   handleItemDelete: (file: AppFile) => void
   handleItemDownload: (file: AppFile) => void
+  handleItemCopyPath: (file: AppFile) => void
 }
 
 export function FileList({
@@ -23,6 +25,7 @@ export function FileList({
   handleItemPress,
   handleItemDelete,
   handleItemDownload,
+  handleItemCopyPath,
 }: FileListProps) {
   const { token } = theme.useToken()
 
@@ -84,6 +87,15 @@ export function FileList({
               />
             </Tooltip>
           )}
+
+          <Divider type="vertical" />
+
+          <Tooltip title="Copy path">
+            <CopyOutlined
+              style={{ color: token.colorPrimary, cursor: 'pointer' }}
+              onClick={() => handleItemCopyPath(file)}
+            />
+          </Tooltip>
 
           <Divider type="vertical" />
 
