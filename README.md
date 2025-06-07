@@ -1,5 +1,5 @@
-![NPM Version](https://img.shields.io/npm/v/file-explorer-expo-dev-plugin)
-![Downloads](https://img.shields.io/npm/dm/file-explorer-expo-dev-plugin)
+[![NPM Version](https://img.shields.io/npm/v/file-explorer-expo-dev-plugin)](https://www.npmjs.com/package/file-explorer-expo-dev-plugin)
+![Downloads](https://img.shields.io/npm/dt/file-explorer-expo-dev-plugin)
 
 # File Explorer Expo Dev Plugin
 

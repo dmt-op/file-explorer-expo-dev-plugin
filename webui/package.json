@@ -1,6 +1,6 @@
 {
   "name": "file-explorer-expo-dev-plugin-webui",
-  "version": "1.0.0-private",
+  "version": "2.1.0-private",
   "main": "index.ts",
   "scripts": {
     "start": "expo start",
