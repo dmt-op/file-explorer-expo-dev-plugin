@@ -34,11 +34,11 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@types/react": "~19.2.0",
+    "@types/react": "~19.1.0",
     "expo": "~54.0.13",
     "expo-module-scripts": "^5.0.7",
-    "react": "19.2.0",
-    "typescript": "^5.9.2"
+    "react": "19.1.0",
+    "typescript": "~5.9.2"
   },
   "peerDependencies": {
     "expo": "^54.0.13",

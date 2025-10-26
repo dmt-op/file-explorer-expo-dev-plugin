@@ -1,4 +1,4 @@
-import { FileInfo } from 'expo-file-system'
+import { FileInfo } from 'expo-file-system/legacy'
 
 export enum RootDirectory {
   Document = 'document',

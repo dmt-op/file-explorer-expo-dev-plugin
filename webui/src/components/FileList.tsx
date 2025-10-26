@@ -6,7 +6,7 @@ import {
   CopyOutlined,
 } from '@ant-design/icons'
 import { Table, Divider, Tooltip, theme } from 'antd'
-import { FileInfo } from 'expo-file-system'
+import { FileInfo } from 'expo-file-system/legacy'
 import { View, StyleSheet } from 'react-native'
 
 import { AppFile } from '@/types'
