@@ -15,7 +15,6 @@
     "web:export": "./scripts/build-webui.js"
   },
   "workspaces": [
-    "examples/*",
     "webui"
   ],
   "keywords": [
@@ -35,13 +34,14 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@types/react": "~19.0.10",
-    "expo": "~53.0.7",
-    "expo-module-scripts": "^4.1.6",
-    "react": "19.0.0",
-    "typescript": "^5.8.3"
+    "@types/react": "~19.2.0",
+    "expo": "~54.0.13",
+    "expo-module-scripts": "^5.0.7",
+    "react": "19.2.0",
+    "typescript": "^5.9.2"
   },
   "peerDependencies": {
-    "expo": "^53.0.7"
+    "expo": "^54.0.13",
+    "expo-file-system": "^19.0.14"
   }
 }
