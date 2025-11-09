@@ -53,7 +53,7 @@ export default App() {
 
 After installing the dev tools plugin and adding the connecting required code to your project, you can start the dev server up with `npx expo start`. Then press <kbd>shift</kbd> + <kbd>m</kbd> to open the list of available dev tools plugins. Select the plugin you want to use, and it will open in a new Chrome window.
 
-Example project: [examples/example-file-system-tools](./examples/example-file-system-tools)
+Example project: [examples/example-file-explorer](./examples/example-file-explorer)
 
 ## Features
 
