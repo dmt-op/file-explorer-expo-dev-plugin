@@ -9,8 +9,12 @@ A DevTools plugin for managing and viewing the file system in Expo Go and Expo d
 
 ## Compatibility
 
-- For **Expo SDK 53 and newer**, use the latest version of this plugin
-- For **Expo SDK 52**, use version `1.0.1`
+> **Note:**  
+> This plugin requires the [`expo-file-system`](https://docs.expo.dev/versions/latest/sdk/filesystem/) package to be installed in your project
+
+- For **Expo SDK 54 and newer**, use the latest version of this plugin
+- For **Expo SDK 53**, use version `2.*.*`
+- For **Expo SDK 52**, use version `1.*.*`
 
 ## Installation
 
