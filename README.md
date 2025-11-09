@@ -9,8 +9,12 @@ A DevTools plugin for managing and viewing the file system in Expo Go and Expo d
 
 ## Compatibility
 
-- For **Expo SDK 53 and newer**, use the latest version of this plugin
-- For **Expo SDK 52**, use version `1.0.1`
+> **Note:**  
+> This plugin requires the [`expo-file-system`](https://docs.expo.dev/versions/latest/sdk/filesystem/) package to be installed in your project
+
+- For **Expo SDK 54 and newer**, use the latest version of this plugin
+- For **Expo SDK 53**, use version `2.*.*`
+- For **Expo SDK 52**, use version `1.*.*`
 
 ## Installation
 
@@ -49,7 +53,7 @@ export default App() {
 
 After installing the dev tools plugin and adding the connecting required code to your project, you can start the dev server up with `npx expo start`. Then press <kbd>shift</kbd> + <kbd>m</kbd> to open the list of available dev tools plugins. Select the plugin you want to use, and it will open in a new Chrome window.
 
-Example project: [examples/example-file-system-tools](./examples/example-file-system-tools)
+Example project: [examples/example-file-explorer](./examples/example-file-explorer)
 
 ## Features
 

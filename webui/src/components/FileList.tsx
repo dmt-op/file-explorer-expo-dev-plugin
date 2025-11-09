@@ -3,10 +3,10 @@ import {
   FolderOutlined,
   FileOutlined,
   DownloadOutlined,
-  CopyOutlined,
+  EyeOutlined,
 } from '@ant-design/icons'
-import { Table, Divider, Tooltip, theme } from 'antd'
-import { FileInfo } from 'expo-file-system'
+import { Table, Divider, Tooltip, theme, Popconfirm } from 'antd'
+import { FileInfo } from 'expo-file-system/legacy'
 import { View, StyleSheet } from 'react-native'
 
 import { AppFile } from '@/types'
@@ -17,7 +17,6 @@ type FileListProps = {
   handleItemPress: (file: AppFile) => void
   handleItemDelete: (file: AppFile) => void
   handleItemDownload: (file: AppFile) => void
-  handleItemCopyPath: (file: AppFile) => void
 }
 
 export function FileList({
@@ -25,7 +24,6 @@ export function FileList({
   handleItemPress,
   handleItemDelete,
   handleItemDownload,
-  handleItemCopyPath,
 }: FileListProps) {
   const { token } = theme.useToken()
 
@@ -90,12 +88,18 @@ export function FileList({
 
           <Divider type="vertical" />
 
-          <Tooltip title="Copy path">
-            <CopyOutlined
-              style={{ color: token.colorPrimary, cursor: 'pointer' }}
-              onClick={() => handleItemCopyPath(file)}
-            />
-          </Tooltip>
+          <Popconfirm
+            title="Full path"
+            description={file.info.uri}
+            showCancel={false}
+            icon={null}
+          >
+            <Tooltip title="View full path">
+              <EyeOutlined
+                style={{ color: token.colorPrimary, cursor: 'pointer' }}
+              />
+            </Tooltip>
+          </Popconfirm>
 
           <Divider type="vertical" />
 

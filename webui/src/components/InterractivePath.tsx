@@ -1,6 +1,6 @@
-import { Breadcrumb, Button, message, Tooltip } from 'antd'
-import { useCallback, useMemo } from 'react'
-import { CopyOutlined } from '@ant-design/icons'
+import { Breadcrumb, Button, Divider, message, Tooltip, Typography } from 'antd'
+import { useCallback, useMemo, useState } from 'react'
+import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons'
 import { getRelativeExpoFsPathParts } from '@/utils'
 
 type InterractivePathProps = {
@@ -18,11 +18,11 @@ export function InterractivePath({
     () => getRelativeExpoFsPathParts(path, root),
     [path, root]
   )
+  const [showFullPath, setShowFullPath] = useState(false)
 
-  const handleCopyPath = useCallback(() => {
-    navigator.clipboard.writeText(path)
-    message.success('Path copied to clipboard')
-  }, [path])
+  const handleViewFullPath = useCallback(() => {
+    setShowFullPath((prev) => !prev)
+  }, [])
 
   const breadcrumbItems = [
     {
@@ -50,20 +50,39 @@ export function InterractivePath({
     <div
       style={{
         display: 'flex',
-        alignItems: 'center',
+        flexDirection: 'column',
         gap: 4,
       }}
     >
-      <Breadcrumb
-        style={{ width: '100%' }}
-        separator=">"
-        items={breadcrumbItems}
-      />
-      <Tooltip title="Copy Full Path">
-        <Button type="text" icon={<CopyOutlined />} onClick={handleCopyPath}>
-          Copy Path
-        </Button>
-      </Tooltip>
+      <div
+        style={{
+          display: 'flex',
+          flex: 1,
+          gap: 4,
+        }}
+      >
+        <Breadcrumb
+          style={{ width: '100%' }}
+          separator=">"
+          items={breadcrumbItems}
+        />
+        <Tooltip title="View raw path">
+          <Button
+            type="text"
+            icon={showFullPath ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+            onClick={handleViewFullPath}
+          >
+            {showFullPath ? 'Hide raw path' : 'Show raw path'}
+          </Button>
+        </Tooltip>
+      </div>
+
+      {showFullPath && (
+        <>
+          <Divider />
+          <Typography.Text type="secondary">{path}</Typography.Text>
+        </>
+      )}
     </div>
   )
 }

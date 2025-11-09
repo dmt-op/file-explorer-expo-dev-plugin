@@ -1,5 +1,5 @@
 import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools'
-import * as FileSystem from 'expo-file-system'
+import * as FileSystem from 'expo-file-system/legacy'
 import { useCallback, useEffect } from 'react'
 
 const methods = {

@@ -1,13 +1,16 @@
 import { Button, Text, View, StyleSheet, Alert } from 'react-native'
-import * as FileSystem from 'expo-file-system'
-import * as ImagePicker from 'expo-image-picker'
-import * as DocumentPicker from 'expo-document-picker'
+import * as FileSystem from 'expo-file-system/legacy'
 import { useCallback } from 'react'
+import { useFileExplorerDevTools } from 'file-explorer-expo-dev-plugin'
 
-export default function Index() {
+export default function App() {
+  useFileExplorerDevTools()
+
   const createRandomFiles = useCallback(async () => {
     try {
-      const rootFolder = `${FileSystem.documentDirectory}/folder${Math.random()}`
+      const rootFolder = `${
+        FileSystem.documentDirectory
+      }/folder${Math.random()}`
       const nestedFolders = `${FileSystem.documentDirectory}/folder1/folder2/folder 3`
       await FileSystem.makeDirectoryAsync(rootFolder, { intermediates: true })
       await FileSystem.makeDirectoryAsync(nestedFolders, {
@@ -37,56 +40,11 @@ export default function Index() {
     }
   }, [])
 
-  const pickImageAsync = useCallback(async () => {
-    try {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        allowsEditing: false,
-        quality: 1,
-      })
-
-      if (result.assets?.[0]) {
-        const asset = result.assets[0]
-        const filePath = `${FileSystem.documentDirectory}/${asset.fileName}`
-        await FileSystem.moveAsync({
-          from: asset.uri,
-          to: filePath,
-        })
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  }, [])
-
-  const pickDocumentAsync = useCallback(async () => {
-    try {
-      let result = await DocumentPicker.getDocumentAsync()
-
-      if (result.assets?.[0]) {
-        const asset = result.assets[0]
-        const filePath = `${FileSystem.documentDirectory}/${asset.name}`
-        await FileSystem.moveAsync({
-          from: asset.uri,
-          to: filePath,
-        })
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  }, [])
-
   return (
     <View style={styles.container}>
       <Text style={styles.header}>File System Tools</Text>
 
       <View style={styles.buttonContainer}>
-        <View style={styles.buttonWrapper}>
-          <Button title="Pick Image" onPress={pickImageAsync} />
-        </View>
-
-        <View style={styles.buttonWrapper}>
-          <Button title="Pick Document" onPress={pickDocumentAsync} />
-        </View>
-
         <View style={styles.buttonWrapper}>
           <Button title="Create Random Files" onPress={createRandomFiles} />
         </View>

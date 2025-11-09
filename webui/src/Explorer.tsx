@@ -75,11 +75,6 @@ export function Explorer() {
     [getFileContent]
   )
 
-  const handleItemCopyPath = useCallback((file: AppFile) => {
-    navigator.clipboard.writeText(file.info.uri)
-    message.success('Path copied to clipboard')
-  }, [])
-
   return (
     <View
       style={[styles.container, { backgroundColor: token.colorBgContainer }]}
@@ -106,7 +101,6 @@ export function Explorer() {
           handleItemPress={handleItemPress}
           handleItemDelete={handleItemDelete}
           handleItemDownload={handleItemDownload}
-          handleItemCopyPath={handleItemCopyPath}
         />
       </View>
     </View>
