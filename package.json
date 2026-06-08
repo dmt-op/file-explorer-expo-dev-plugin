@@ -41,7 +41,7 @@
     "typescript": "~5.9.2"
   },
   "peerDependencies": {
-    "expo": "^54.0.13",
-    "expo-file-system": "^19.0.14"
+    "expo": ">=54.0.13",
+    "expo-file-system": ">=19.0.14"
   }
 }
